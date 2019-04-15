@@ -1,0 +1,151 @@
+ 
+       ALT-TOPLAM-AL.
+           MOVE ZEROS TO I-TOPLAM I-ISKTOPLAM I-KDVTOPLAM.
+           MOVE 1 TO HD-SIRA.
+           MOVE HS-TIP TO HD-TIP.
+           MOVE HS-EVRAKNO TO HD-EVRAKNO.
+           START HAREKET-DETAY KEY IS NOT LESS THAN HD-KEY
+             INVALID KEY GO ALT-TOPLAM-OKU-SON.
+       ALT-TOPLAM-OKU.
+           READ HAREKET-DETAY NEXT AT END READ HAREKET-DETAY PREVIOUS
+                 GO ALT-TOPLAM-OKU-SON.
+           IF HD-TIP NOT = HS-TIP OR HD-EVRAKNO NOT = HS-EVRAKNO
+                READ HAREKET-DETAY PREVIOUS AT END CONTINUE END-READ 
+                    GO ALT-TOPLAM-OKU-SON.
+           IF HD-SIRA = ZEROS 
+                READ HAREKET-DETAY PREVIOUS AT END CONTINUE END-READ
+                    GO ALT-TOPLAM-OKU-SON.
+           PERFORM ALT-TOPLAM-EKLE.
+           GO ALT-TOPLAM-OKU.
+       ALT-TOPLAM-OKU-SON.
+           COMPUTE I-TOPLAM-R ROUNDED = I-TOPLAM + 0.
+           COMPUTE I-ISKTOPLAM-R ROUNDED = I-ISKTOPLAM + 0.
+           COMPUTE I-KDVTOPLAM-R ROUNDED = I-KDVTOPLAM + 0.
+           COMPUTE I-ARATOPLAM = I-TOPLAM-R - I-ISKTOPLAM-R.
+           COMPUTE I-GENELTOPLAM = I-ARATOPLAM + I-KDVTOPLAM-R.
+       ALT-TOPLAM-AL-SON.
+       ALT-TOPLAM-EKLE.
+           COMPUTE I-ISK1 = HD-FIYAT * HD-ISKONTO1 / 100.
+           COMPUTE I-ISK2 = (HD-FIYAT - I-ISK1) 
+                        * HD-ISKONTO2 / 100.
+           COMPUTE I-KDV = (HD-FIYAT - I-ISK1 - I-ISK2) 
+                        * HD-KDV / 100.
+           COMPUTE I-ISKTOPLAM = I-ISKTOPLAM +
+                    (I-ISK1 * HD-ADET) + (I-ISK2 * HD-ADET).
+           COMPUTE I-KDVTOPLAM = I-KDVTOPLAM + (I-KDV * HD-ADET).
+           COMPUTE I-TOPLAM =  I-TOPLAM + (HD-FIYAT * HD-ADET).
+       ALT-TOPLAM-CIKAR. 
+           COMPUTE I-ISK1 = HD-FIYAT * HD-ISKONTO1 / 100.
+           COMPUTE I-ISK2 = (HD-FIYAT - I-ISK1) 
+                        * HD-ISKONTO2 / 100.
+           COMPUTE I-KDV = (HD-FIYAT - I-ISK1 - I-ISK2) 
+                        * HD-KDV / 100.
+           COMPUTE I-ISKTOPLAM = I-ISKTOPLAM -
+             ((I-ISK1 * HD-ADET) + (I-ISK2 * HD-ADET)).
+           COMPUTE I-KDVTOPLAM = I-KDVTOPLAM - (I-KDV * HD-ADET).
+           COMPUTE I-TOPLAM =  I-TOPLAM - (HD-FIYAT * HD-ADET).
+       ALT-TOPLAM-KAYDET.
+           MOVE HD-KAYIT TO THD-KAYIT.
+           INITIALIZE HD-KAYIT.
+           MOVE HS-EVRAKNO TO HD-EVRAKNO.
+           MOVE 0 TO HD-SIRA.
+           MOVE HS-TIP TO HD-TIP.
+           PERFORM ALT-TOPLAM-OKU-SON.
+           MOVE I-GENELTOPLAM TO HD-FIYAT.
+           PERFORM WRITE-HAREKET-DETAY.
+           IF WVAR = 0 PERFORM REWRITE-HAREKET-DETAY.
+           MOVE THD-KAYIT TO HD-KAYIT.
+      * 01 - ˜RSAL˜YEL˜ SATIž FATURASI
+      * 02 - SATIž ˜RSAL˜YES˜
+      * 03 - SATIž FATURASI     
+      * 
+      * 04 - ˜RSAL˜YEL˜ ALIž FATURASI
+      * 05 - ALIž ˜RSAL˜YES˜
+      * 06 - ALIž FATURASI
+      * 
+      * 07 - ˜RSAL˜YEL˜ ˜ADE €IKIž FATURASI
+      * 08 - ˜ADE €IKIž ˜RSAL˜YES˜
+      * 09 - ˜ADE €IKIž FATURASI
+      *
+      * 10 - ˜RSAL˜YEL˜ ˜ADE ALIž FATURASI
+      * 11 - ˜ADE ALIž ˜RSAL˜YES˜
+      * 12 - ˜ADE ALIž FATURASI
+      *
+      * 13 - SATIž FARK FATURASI
+      * 14 - ALIž FARK FATURASI      
+      * CARHAR KAYIT DšZENLE     
+           IF HS-TIP = 1 OR HS-TIP = 3 OR HS-TIP = 4 OR HS-TIP = 6
+              OR HS-TIP = 7 OR HS-TIP = 9 OR HS-TIP = 10 OR HS-TIP = 12
+              OR HS-TIP = 13 OR HS-TIP = 14
+              MOVE HS-HESAPNO TO TCH-HESAPNO
+              MOVE HS-DEPONO TO TCH-DEPONO
+              MOVE HS-TIP TO TCH-TIP
+              MOVE HS-EVRAKNO TO TCH-EVRAKNO
+              MOVE HS-TARIH TO TCH-TARIH
+              MOVE SPACES TO TCH-ACIKLAMA
+              MOVE ZEROS TO TCH-BORC TCH-ALACAK
+              EVALUATE HS-TIP
+                  WHEN 1 WHEN 3 MOVE I-GENELTOPLAM TO TCH-BORC
+                  WHEN 4 WHEN 6 MOVE I-GENELTOPLAM TO TCH-ALACAK 
+                  WHEN 7 WHEN 9 MOVE I-GENELTOPLAM TO TCH-BORC 
+                  WHEN 10 WHEN 12 MOVE I-GENELTOPLAM TO TCH-ALACAK 
+                  WHEN 13 MOVE I-GENELTOPLAM TO TCH-BORC 
+                  WHEN 14 MOVE I-GENELTOPLAM TO TCH-ALACAK 
+              END-EVALUATE
+              MOVE HS-GUN TO Z-GUN
+              MOVE Z-GUN TO TRIM-VALUE
+              PERFORM TRIM-BLOCK
+              IF TRIM-SIZE = ZEROS
+                     MOVE 'PeŸin' TO TCH-VADE
+              ELSE              
+                     STRING TRIM-VALUE(1:TRIM-SIZE) DELIMITED BY SIZE
+                     ' gn' DELIMITED BY SIZE
+                     INTO TCH-VADE
+              END-IF
+              MOVE AY-ACIKLAMA TO TCH-ACIKLAMA
+              IF I-GENELTOPLAM = ZEROS
+                 PERFORM CARHAR-SIL
+              ELSE 
+                 PERFORM CARHAR-YAZ THRU CARHAR-YAZ-SON
+              END-IF
+           END-IF.
+      * CARHAR KAYIT DšZENLE-SON.
+           PERFORM BAKIYE-OKU THRU BAKIYE-OKU-SON.
+           
+           
+       
+       BAKIYE-OKU.
+           MOVE ' ' TO T-DURUM.
+           MOVE ZEROS TO T-BAKIYE.
+           OPEN INPUT CARHAR.
+           MOVE HS-HESAPNO TO CH-HESAPNO.
+           MOVE ZEROS TO CH-SIRA CH-TARIH.
+           MOVE HS-DYIL TO CH-YIL.
+           MOVE HS-DEPONO TO CH-DEPONO.
+           READ CARHAR INVALID KEY
+              START CARHAR KEY IS LESS THAN CH-KEY
+                INVALID KEY GO BAKIYE-OKU-SON END-START
+              READ CARHAR NEXT
+              IF CH-HESAPNO NOT = HS-HESAPNO 
+                  OR CH-DEPONO NOT = HS-DEPONO
+                 GO BAKIYE-OKU-SON
+              END-IF
+              MOVE ZEROS TO CH-AY CH-GUN CH-SIRA
+              READ CARHAR INVALID KEY
+                 MOVE ZEROS TO CH-BORC CH-ALACAK
+              END-READ
+           END-READ.
+           MOVE ' ' TO T-DURUM.
+           MOVE ZEROS TO T-BAKIYE.
+           IF CH-BORC > CH-ALACAK
+                COMPUTE T-BAKIYE = CH-BORC - CH-ALACAK
+                MOVE 'B' TO T-DURUM
+           ELSE IF CH-ALACAK > CH-BORC
+                COMPUTE T-BAKIYE = CH-ALACAK - CH-BORC
+                MOVE 'A' TO T-DURUM
+           END-IF.
+       BAKIYE-OKU-SON.
+           CLOSE CARHAR.
+           
+       copy 'chyaz.per'.
+       copy 'trim.per'.

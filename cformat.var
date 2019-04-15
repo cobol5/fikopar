@@ -1,0 +1,34 @@
+       01 CFORMATDOS.
+           02 FILLER            PIC X(5) VALUE 'PROP\'.
+           02 FORMATDOS           PIC X(12).
+       01 YAZICI-VARIABLES.
+           02 NORMAL        PIC X VALUE ''.
+           02 KUCUK         PIC X VALUE ''.
+           02 YSATIR            PIC X(250).
+       77 YAZDOS                PIC X(8).
+       
+       77 YAZIYLA       PIC X(111).
+       01 ENVIRONMENT-VARIABLES.
+           02 ENV-SET       PIC X(100).
+           02 ENV-VAL       PIC X(100).
+
+           02 ENV-SIZE      PIC X(100).
+           02 FLAG          PIC 9.
+
+           02 TS            PIC X(100).
+           02 TE            PIC X(100).
+           02 J             PIC 999.
+           02 K             PIC 999.
+           02 I             PIC 999.
+           02 START-POS     PIC 999.
+           02 LEN           PIC 999.
+
+           02 S             PIC 999.
+           02 SCHAR         PIC X.
+           02 AFTERPAGE     PIC 9.
+           02 BITTI         PIC 9.
+           02 VAR           PIC 9.
+           02 SATIR-SIZE    PIC 999.
+           02 POZ           PIC 999.
+
+           02 Z-ENV         PIC ---.---.---,----.

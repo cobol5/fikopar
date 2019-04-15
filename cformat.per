@@ -1,0 +1,159 @@
+      ***********************************************************************
+      *                                                                     *
+      *    €IKTI KONTROLU                                                   *
+      *                                                                     *
+      ***********************************************************************
+           IF YAZDOS = 'WIN32' 
+		      OPEN INPUT CFORMAT
+			  READ CFORMAT NEXT
+			  CALL 'prn_open' USING FORMAT-CHARACTER FORMAT-TIMES
+			    SATIR
+			  CLOSE CFORMAT
+			  OPEN INPUT CFORMAT
+			  READ CFORMAT NEXT
+		   ELSE
+		      OPEN OUTPUT YAZICI INPUT CFORMAT
+		   END-IF.
+           MOVE 0 TO AFTERPAGE S.
+           MOVE 0 TO BITTI.
+           CALL 'C$SetEnv' USING 'YP-A4' X'1B4341'.
+           CALL 'C$SetEnv' USING 'YP-A5' X'1B4321'.
+       FORMAT-OKU.    
+           MOVE SPACES TO SATIR FORMAT-NEXT-PAGE.
+           MOVE ZEROS TO FORMAT-CHARACTER FORMAT-TIMES.
+           READ CFORMAT NEXT AT END
+		     IF YAZDOS NOT = 'WIN32'
+                WRITE YAZ FROM ' ' AFTER PAGE END-WRITE
+				WRITE YAZ FROM SPACES END-WRITE
+		     END-IF
+             IF AFTERPAGE = 1 CLOSE CFORMAT OPEN INPUT CFORMAT
+			    IF YAZDOS = 'WIN32' 
+				  READ CFORMAT NEXT
+				  CALL 'prn_newpage' 
+				END-IF
+                GO FORMAT-OKU
+             END-IF
+             CLOSE CFORMAT 
+             PERFORM ENVIRONMENT-TEMIZLE 
+			 IF YAZDOS = 'WIN32'
+			   CALL 'prn_close'
+			 ELSE
+			   CLOSE YAZICI
+			 END-IF
+             GO FORMAT-SON
+           END-READ.
+           IF AFTERPAGE = 1 AND FORMAT-NEXT-PAGE = 'N'
+                GO FORMAT-OKU.
+       FORMAT-OKU-DEVAM.
+           MOVE SPACES TO YSATIR.
+           EVALUATE FORMAT-CHARACTER
+                WHEN 80 
+				 IF YAZDOS = 'WIN32'
+				   CALL 'prn_setfont' USING 1
+				 ELSE
+				   MOVE NORMAL TO YSATIR(1:1)
+				 END-IF
+                WHEN 140 
+				 IF YAZDOS = 'WIN32'
+				   CALL 'prn_setfont' USING 0
+				 ELSE
+				   MOVE KUCUK TO YSATIR(1:1)
+				 END-IF
+           END-EVALUATE.
+
+           IF FORMAT-TIMES > 1
+                PERFORM SONRAKI-VARMI THRU SONRAKI-VARMI-SON
+                IF S = FORMAT-TIMES AND VAR = 1 MOVE 0 TO S
+                   MOVE 1 TO AFTERPAGE GO FORMAT-OKU
+                END-IF
+                IF AFTERPAGE = 1
+                   MOVE 0 TO AFTERPAGE
+                   PERFORM AKTAR-NAKLIYEKUN
+                ELSE
+                   MOVE 0 TO BITTI
+                   PERFORM SONRAKI-AKTAR THRU SONRAKI-AKTAR-SON    
+                   IF BITTI = 1 
+                      MOVE 0 TO AFTERPAGE 
+                      GO FORMAT-OKU 
+                   END-IF
+                END-IF
+                ADD 1 TO S
+           END-IF.
+           
+           MOVE SATIR TO TRIM-VALUE.
+           PERFORM RTRIM-BLOCK.
+           MOVE TRIM-SIZE TO SATIR-SIZE.
+		   IF YAZDOS = 'WIN32'
+		      MOVE 1 TO POZ
+		   ELSE
+              MOVE 2 TO POZ
+		   END-IF.
+           PERFORM VARYING I FROM 1 BY 1 UNTIL I > SATIR-SIZE
+                MOVE ' ' TO SCHAR
+                IF SATIR(I:1) = '{' MOVE '}' TO SCHAR END-IF
+                IF SATIR(I:1) = '"' MOVE '"' TO SCHAR END-IF
+                IF SCHAR NOT = ' '
+                    PERFORM ENVIRONMENT-VARIABLE-AL
+                    PERFORM WRITE-YAZICI-SATIR
+                END-IF
+                IF SATIR(I:1) NOT = '}' AND SATIR(I:1) NOT = '"'
+                    ADD 1 TO POZ
+                END-IF
+           END-PERFORM.
+		   IF YAZDOS = 'WIN32'
+		      CALL 'prn_print' USING YSATIR
+		   ELSE
+              WRITE YAZ FROM YSATIR END-WRITE
+		   END-IF.
+           IF FORMAT-TIMES > 1 GO FORMAT-OKU-DEVAM.
+           
+           GO FORMAT-OKU.
+       
+       WRITE-YAZICI-SATIR.
+           MOVE ENV-VAL(START-POS:LEN) TO YSATIR(POZ:LEN).
+           ADD LEN TO POZ.                
+           
+       ENVIRONMENT-VARIABLE-AL.
+           MOVE 1 TO J K.
+           MOVE SPACES TO ENV-SET ENV-SIZE.
+           MOVE 0 TO FLAG.
+           ADD 1 TO I.
+           PERFORM VARYING I FROM I BY 1 UNTIL SATIR(I:1) = SCHAR
+                  IF SATIR(I:1) NOT = '{' AND SATIR(I:1) NOT = '"'
+                     AND SATIR(I:1) NOT = ')'
+                        IF SATIR(I:1) = '('
+                         MOVE 1 TO FLAG
+                        ELSE
+                         EVALUATE FLAG
+                         WHEN 0 MOVE SATIR(I:1) TO ENV-SET(J:1)
+                                ADD 1 TO J
+                         WHEN 1 MOVE SATIR(I:1) TO ENV-SIZE(K:1)
+                                ADD 1 TO K
+                         END-EVALUATE
+                        END-IF
+                  END-IF
+           END-PERFORM.
+           
+           IF SCHAR = '"'
+              MOVE ENV-SET TO ENV-VAL
+              MOVE 1 TO START-POS
+              COMPUTE LEN = J - 1
+           ELSE
+              UNSTRING ENV-SIZE DELIMITED BY ':'
+               INTO TS, TE
+              END-UNSTRING
+              MOVE TS TO TRIM-VALUE
+              PERFORM TRIM-BLOCK
+              MOVE TRIM-VALUE(1:TRIM-SIZE) TO START-POS
+              MOVE TE TO TRIM-VALUE
+              PERFORM TRIM-BLOCK
+              MOVE TRIM-VALUE(1:TRIM-SIZE) TO LEN
+              MOVE ENV-SET TO TRIM-VALUE
+              PERFORM TRIM-BLOCK
+              CALL 'C$GetEnv' USING TRIM-VALUE(1:TRIM-SIZE) ENV-VAL
+           END-IF.
+      ***********************************************************************
+      *                                                                     *
+      *    €IKTI KONTROLU SON                                               *
+      *                                                                     *
+      ***********************************************************************

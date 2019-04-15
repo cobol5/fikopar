@@ -1,0 +1,19 @@
+       01 TCH-KAYIT.
+           02 TCH-KEY.
+               03 TCH-HESAPNO            PIC X(15).
+               03 TCH-DEPONO             PIC 9999.    
+               03 TCH-TARIH.
+                     04 TCH-YIL               PIC 9999.
+                     04 TCH-AY                PIC 99.
+                     04 TCH-GUN               PIC 99.
+               03 TCH-SIRA               PIC 9(10).
+           02 TCH-TIP                PIC 99.
+           02 TCH-EVRAKNO            PIC X(15).
+           02 TCH-ACIKLAMA           PIC X(60).
+           02 TCH-VADE               PIC X(15).
+           02 TCH-BORC               PIC 9(13)V99.
+           02 TCH-ALACAK             PIC 9(13)V99.
+       77 XCH-BORC          PIC 9(13)V99.
+       77 XCH-ALACAK        PIC 9(13)V99.
+       77 FIND-RECORD       PIC 9.
+	   copy 'fileop.var'.

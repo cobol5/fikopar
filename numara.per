@@ -1,0 +1,156 @@
+       NUMARA-AL.
+           OPEN INPUT AYAR.
+           MOVE DX-DEPONO TO AY-DEPONO.
+           MOVE DX-TIP TO AY-TIP.
+           START AYAR KEY IS EQUAL TO AY-KEY
+            INVALID KEY 
+               MOVE SPACES TO AY-EVRAKNO
+               MOVE ZEROS TO AY-DEPONO
+            NOT INVALID KEY 
+               READ AYAR
+           END-START.
+           CLOSE AYAR.
+
+       NUMARA-VAL-OKU.
+           SUBTRACT 1 FROM NI.
+           MOVE NI TO NNI.
+           PERFORM VARYING NI FROM NI BY -1
+            UNTIL AY-EVRAKFORMAT(NI:1) = '{'
+                CONTINUE
+           END-PERFORM.
+           MOVE AY-EVRAKFORMAT(NI + 1:NNI - NI) TO TVAL.
+           
+           IF TVAL = 'YIL' 
+                ACCEPT NTARIH FROM CENTURY-DATE
+                MOVE NYIL TO NVAL
+                IF AY-EVRAKNO(NJ - 5:NJ - 1) NOT = NYIL
+                    MOVE 2 TO NFLAG
+                END-IF
+           ELSE 
+                MOVE TVAL TO TRIM-VALUE
+                PERFORM TRIM-BLOCK
+                MOVE TRIM-VALUE(1:TRIM-SIZE) TO NLEN
+                MOVE AY-EVRAKNO(NJ - NLEN + 1:NJ - 1) TO NUMVAL
+           END-IF.
+           
+           IF NFLAG = 1
+                MOVE 0 TO NFLAG
+                PERFORM SIRA-ARTIR
+                MOVE NUMVAL TO NVAL
+           END-IF.
+           
+       NUMARA-ARTIR.
+           MOVE DX-TIP TO AY-TIP.
+           MOVE DX-DEPONO TO AY-DEPONO.
+           READ AYAR INVALID KEY MOVE SPACES TO AY-EVRAKNO.
+           
+           IF AY-EVRAKNO NOT = SPACES
+            MOVE AY-EVRAKNO TO TRIM-VALUE
+            PERFORM TRIM-BLOCK
+            MOVE TRIM-SIZE TO NJ
+            MOVE AY-EVRAKFORMAT TO TRIM-VALUE
+            PERFORM TRIM-BLOCK
+            MOVE TRIM-SIZE TO NI
+            MOVE 1 TO NFLAG
+            PERFORM VARYING NI FROM NI BY -1 UNTIL NI = 0
+               IF AY-EVRAKFORMAT(NI:1) = '}'
+                   PERFORM NUMARA-VAL-OKU
+                   MOVE NVAL TO TRIM-VALUE
+                   PERFORM TRIM-BLOCK
+                   MOVE NVAL(1:TRIM-SIZE) TO 
+                        NNUM(NJ - TRIM-SIZE + 1:TRIM-SIZE)
+                   SUBTRACT TRIM-SIZE FROM NJ
+               ELSE
+                   MOVE AY-EVRAKFORMAT(NI:1) TO NNUM(NJ:1)
+                   SUBTRACT 1 FROM NJ
+               END-IF
+            END-PERFORM
+            MOVE NNUM TO AY-EVRAKNO
+            PERFORM REWRITE-AYAR
+           END-IF.
+
+           
+           
+       SIRA-ARTIR.
+           MOVE NUMVAL TO TRIM-VALUE.
+           PERFORM TRIM-BLOCK.
+           EVALUATE NLEN
+            WHEN 1 MOVE NUMVAL(1:TRIM-SIZE) TO DNUM1
+                   ADD 1 TO DNUM1
+                   ON SIZE ERROR MOVE 1 TO DNUM1 MOVE 1 TO NFLAG
+                   END-ADD 
+                   MOVE DNUM1 TO NUMVAL
+            WHEN 2 MOVE NUMVAL(1:TRIM-SIZE) TO DNUM2
+                   ADD 1 TO DNUM2
+                   ON SIZE ERROR MOVE 1 TO DNUM2 MOVE 1 TO NFLAG
+                   END-ADD 
+                   MOVE DNUM2 TO NUMVAL
+            WHEN 3 MOVE NUMVAL(1:TRIM-SIZE) TO DNUM3
+                   ADD 1 TO DNUM3
+                   ON SIZE ERROR MOVE 1 TO DNUM3 MOVE 1 TO NFLAG
+                   END-ADD 
+                   MOVE DNUM3 TO NUMVAL
+            WHEN 4 MOVE NUMVAL(1:TRIM-SIZE) TO DNUM4
+                   ADD 1 TO DNUM4
+                   ON SIZE ERROR MOVE 1 TO DNUM4 MOVE 1 TO NFLAG
+                   END-ADD 
+                   MOVE DNUM4 TO NUMVAL
+            WHEN 5 MOVE NUMVAL(1:TRIM-SIZE) TO DNUM5
+                   ADD 1 TO DNUM5
+                   ON SIZE ERROR MOVE 1 TO DNUM5 MOVE 1 TO NFLAG
+                   END-ADD 
+                   MOVE DNUM5 TO NUMVAL
+            WHEN 6 MOVE NUMVAL(1:TRIM-SIZE) TO DNUM6
+                   ADD 1 TO DNUM6
+                   ON SIZE ERROR MOVE 1 TO DNUM6 MOVE 1 TO NFLAG
+                   END-ADD 
+                   MOVE DNUM6 TO NUMVAL
+            WHEN 7 MOVE NUMVAL(1:TRIM-SIZE) TO DNUM7
+                   ADD 1 TO DNUM7
+                   ON SIZE ERROR MOVE 1 TO DNUM7 MOVE 1 TO NFLAG
+                   END-ADD 
+                   MOVE DNUM7 TO NUMVAL
+            WHEN 8 MOVE NUMVAL(1:TRIM-SIZE) TO DNUM8
+                   ADD 1 TO DNUM8
+                   ON SIZE ERROR MOVE 1 TO DNUM7 MOVE 1 TO NFLAG
+                   END-ADD 
+                   MOVE DNUM8 TO NUMVAL
+            WHEN 9 MOVE NUMVAL(1:TRIM-SIZE) TO DNUM9
+                   ADD 1 TO DNUM9
+                   ON SIZE ERROR MOVE 1 TO DNUM9 MOVE 1 TO NFLAG
+                   END-ADD 
+                   MOVE DNUM9 TO NUMVAL
+            WHEN 10 MOVE NUMVAL(1:TRIM-SIZE) TO DNUM10
+                    ADD 1 TO DNUM10
+                    ON SIZE ERROR MOVE 1 TO DNUM10 MOVE 1 TO NFLAG
+                    END-ADD 
+                    MOVE DNUM10 TO NUMVAL
+            WHEN 11 MOVE NUMVAL(1:TRIM-SIZE) TO DNUM11
+                    ADD 1 TO DNUM11
+                    ON SIZE ERROR MOVE 1 TO DNUM11 MOVE 1 TO NFLAG
+                    END-ADD 
+                    MOVE DNUM11 TO NUMVAL
+            WHEN 12 MOVE NUMVAL(1:TRIM-SIZE) TO DNUM12
+                    ADD 1 TO DNUM12
+                    ON SIZE ERROR MOVE 1 TO DNUM12 MOVE 1 TO NFLAG
+                    END-ADD 
+                    MOVE DNUM12 TO NUMVAL
+            WHEN 13 MOVE NUMVAL(1:TRIM-SIZE) TO DNUM13
+                    ADD 1 TO DNUM13
+                    ON SIZE ERROR MOVE 1 TO DNUM13 MOVE 1 TO NFLAG
+                    END-ADD 
+                    MOVE DNUM13 TO NUMVAL
+            WHEN 14 MOVE NUMVAL(1:TRIM-SIZE) TO DNUM14
+                   ADD 1 TO DNUM14
+                   ON SIZE ERROR MOVE 1 TO DNUM14 MOVE 1 TO NFLAG
+                   END-ADD 
+                   MOVE DNUM14 TO NUMVAL
+            WHEN 15 MOVE NUMVAL(1:TRIM-SIZE) TO DNUM15
+                   ADD 1 TO DNUM15
+                   ON SIZE ERROR MOVE 1 TO DNUM15 MOVE 1 TO NFLAG
+                   END-ADD 
+                   MOVE DNUM15 TO NUMVAL
+           END-EVALUATE.
+            
+               
+               

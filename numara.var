@@ -1,0 +1,32 @@
+       77 NLEN           PIC 999.
+       77 NJ            PIC 999.
+       77 NI            PIC 999.
+       77 NNI           PIC 999.
+       77 TVAL          PIC XXX.
+       77 NUMVAL        PIC X(15).
+       77 NVAL          PIC X(15).
+       77 NNUM          PIC X(15).
+       77 NFLAG         PIC 9.
+       77 DNUM1         PIC 9(1).
+       77 DNUM2         PIC 9(2).
+       77 DNUM3         PIC 9(3).
+       77 DNUM4         PIC 9(4).
+       77 DNUM5         PIC 9(5).
+       77 DNUM6         PIC 9(6).
+       77 DNUM7         PIC 9(7).
+       77 DNUM8         PIC 9(8).
+       77 DNUM9         PIC 9(9).
+       77 DNUM10         PIC 9(10).
+       77 DNUM11         PIC 9(11).
+       77 DNUM12         PIC 9(12).
+       77 DNUM13         PIC 9(13).
+       77 DNUM14         PIC 9(14).
+       77 DNUM15         PIC 9(15).
+       01 NTARIH.
+           02 NYIL      PIC 9999.
+           02 NAY       PIC 99.
+           02 NGUN      PIC 99.
+           
+       77 DX-DEPONO     PIC 9999.
+       77 DX-TIP        PIC 99.
+           

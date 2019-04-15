@@ -1,0 +1,20 @@
+﻿Build started 20.3.2016 13:53:44.
+     1>Project "Z:\DEV-FIKOPAR\dumpvar\dumpvar\dumpvar.vcxproj" on node 2 (Rebuild target(s)).
+     1>ClCompile:
+         C:\Program Files\Microsoft Visual Studio 11.0\VC\bin\CL.exe /c /ZI /nologo /W3 /WX- /Od /Oy- /D "WIN32" /D _DEBUG /D "_WINDOWS" /D _USRDLL /D DUMPVAR_EXPORTS /D "_WINDLL" /D "_UNICODE" /D "UNICODE" /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Debug\\" /Fd"Debug\vc110.pdb" /Gd /TC /analyze- /errorReport:prompt dumpvar.c
+         dumpvar.c
+     1>z:\dev-fikopar\dumpvar\dumpvar\dumpvar.c(10): warning C4996: 'freopen': This function or variable may be unsafe. Consider using freopen_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\program files\microsoft visual studio 11.0\vc\include\stdio.h(233) : see declaration of 'freopen'
+     1>z:\dev-fikopar\dumpvar\dumpvar\dumpvar.c(11): warning C4996: 'freopen': This function or variable may be unsafe. Consider using freopen_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\program files\microsoft visual studio 11.0\vc\include\stdio.h(233) : see declaration of 'freopen'
+     1>z:\dev-fikopar\dumpvar\dumpvar\dumpvar.c(12): warning C4996: 'freopen': This function or variable may be unsafe. Consider using freopen_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\program files\microsoft visual studio 11.0\vc\include\stdio.h(233) : see declaration of 'freopen'
+       Link:
+         C:\Program Files\Microsoft Visual Studio 11.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"Z:\DEV-FIKOPAR\dumpvar\Debug\dumpvar.dll" /INCREMENTAL /NOLOGO /SECTION:".edata,RD" kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"Z:\DEV-FIKOPAR\dumpvar\Debug\dumpvar.pdb" /SUBSYSTEM:WINDOWS /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"Z:\DEV-FIKOPAR\dumpvar\Debug\dumpvar.lib" /MACHINE:X86 /DLL Debug\dumpvar.obj
+            Creating library Z:\DEV-FIKOPAR\dumpvar\Debug\dumpvar.lib and object Z:\DEV-FIKOPAR\dumpvar\Debug\dumpvar.exp
+         dumpvar.vcxproj -> Z:\DEV-FIKOPAR\dumpvar\Debug\dumpvar.dll
+     1>Done Building Project "Z:\DEV-FIKOPAR\dumpvar\dumpvar\dumpvar.vcxproj" (Rebuild target(s)).
+
+Build succeeded.
+
+Time Elapsed 00:00:03.75

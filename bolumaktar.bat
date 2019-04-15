@@ -1,0 +1,1 @@
+c:\php\php.exe bolumaktar.php "0001" "L˜STE.xls" "F˜YATL˜STES˜" 6

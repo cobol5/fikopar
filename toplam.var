@@ -1,0 +1,36 @@
+       01 THD-KAYIT.
+           02 THD-KEY.
+               03 THD-TIP                PIC 99.
+               03 THD-EVRAKNO            PIC X(15).
+               03 THD-SIRA               PIC 9(10).
+           02 THD-KATKEY.
+               03 THD-KATNO              PIC 9999.
+               03 THD-STNO               PIC X(15).
+           02 THD-PRCNO                  PIC X(30).
+           02 THD-TIPI                   PIC X(30).
+           02 THD-CINSI                  PIC X(60).
+           02 THD-MARKA                  PIC X(30).
+           02 THD-ISKONTO1               PIC 9(4)V9999.
+           02 THD-ISKONTO2               PIC 9(4)V9999.
+           02 THD-KDV                    PIC 9(4)V9999.
+           02 THD-ADET                   PIC 9(12)V9999.
+           02 THD-FIYAT                  PIC 9(10)V9999.
+       01 TOPLAM-VARIABLES.
+           02 I-TOPLAM          PIC 9(12)V99999999.
+           02 I-TOPLAM-R        PIC 9(12)V99.
+           02 I-ISKTOPLAM       PIC 9(12)V99999999.
+           02 I-ISKTOPLAM-R     PIC 9(12)V99.
+           02 I-KDVTOPLAM       PIC 9(12)V99999999.
+           02 I-KDVTOPLAM-R     PIC 9(12)V99.
+           02 I-ARATOPLAM       PIC 9(12)V99.
+           02 I-GENELTOPLAM     PIC 9(12)V99.
+           02 I-ISK1            PIC 9(12)V99999999.
+           02 I-ISK2            PIC 9(12)V99999999.
+           02 I-KDV             PIC 9(12)V99999999.
+           02 I-TUTAR           PIC 9(12)V99.
+           02 T-BAKIYE          PIC 9(10)V9999.
+           02 T-DURUM           PIC X.
+           02 BK-YIL            PIC 9999.
+           02 Z-GUN         PIC Z.ZZZ.
+       copy 'chyaz.var'.
+       copy 'trim.var'.

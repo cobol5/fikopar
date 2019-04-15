@@ -1,0 +1,15 @@
+a 100
+mov ax,0040
+mov ds,ax
+or byte ptr [0017],40
+mov ah,1
+int 16
+mov ax,4c00
+int 21
+
+r cx
+0013
+n CAPS_ON.COM
+w
+q
+

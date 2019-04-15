@@ -1,0 +1,4 @@
+       77 TRIM-VALUE            PIC X(250).
+       77 TRIM-SIZE             PIC 999.
+       77 TRIM-FIRST-INDEX      PIC 999.
+       77 TRIM-LAST-INDEX       PIC 999.

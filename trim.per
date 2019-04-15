@@ -1,0 +1,20 @@
+       TRIM-BLOCK.
+           PERFORM LTRIM-BLOCK.
+           PERFORM RTRIM-BLOCK.
+       LTRIM-BLOCK.     
+           PERFORM VARYING 
+                TRIM-FIRST-INDEX FROM 1 BY 1 
+                  UNTIL TRIM-FIRST-INDEX = LENGTH OF TRIM-VALUE
+                        OR TRIM-VALUE(TRIM-FIRST-INDEX:1) NOT = ' '
+                  CONTINUE
+           END-PERFORM.
+           MOVE TRIM-VALUE(TRIM-FIRST-INDEX:) TO TRIM-VALUE.
+       RTRIM-BLOCK.    
+           PERFORM VARYING 
+                TRIM-LAST-INDEX FROM LENGTH OF TRIM-VALUE BY -1
+                      UNTIL TRIM-LAST-INDEX = 0
+                         OR TRIM-VALUE(TRIM-LAST-INDEX:1) NOT = ' '
+                  CONTINUE
+           END-PERFORM.
+           MOVE TRIM-LAST-INDEX TO TRIM-SIZE.
+           MOVE TRIM-VALUE(1:TRIM-SIZE) TO TRIM-VALUE.
